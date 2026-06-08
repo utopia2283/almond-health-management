@@ -1,152 +1,113 @@
 "use client";
-
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import { useI18n } from "@/components/i18n-provider";
-import { WordsPullUp, WordsPullUpMultiStyle } from "@/components/ui/words-pull-up";
-
-const navItems = {
-  en: [
-    { label: "Services", href: "#services" },
-    { label: "Approach", href: "#approach" },
-    { label: "Clinics", href: "#clinics" },
-    { label: "Stories", href: "#stories" },
-    { label: "Book", href: "#contact" },
-  ],
-  zh: [
-    { label: "診療", href: "#services" },
-    { label: "理念", href: "#approach" },
-    { label: "診所", href: "#clinics" },
-    { label: "分享", href: "#stories" },
-    { label: "預約", href: "#contact" },
-  ],
-};
-
+import { ExpandableTabs } from "@/components/ui/expandable-tabs";
+import { Stethoscope, Leaf, Sparkles, HeartPulse, ArrowRight, Quote } from "lucide-react";
 export default function Hero() {
   const { t, lang } = useI18n();
-  const items = navItems[lang];
-  const headline = lang === "zh" ? "仁幸" : "Almond";
-  const tagline = lang === "zh" ? "中醫健康管理" : "Health Management";
-
+  const quickTabs = [
+    { title: t.services.items[0].name, icon: Sparkles },
+    { title: t.services.items[1].name, icon: HeartPulse },
+    { title: t.services.items[2].name, icon: Stethoscope },
+    { type: "separator" as const },
+    { title: t.services.items[3].name, icon: Leaf },
+  ];
   return (
-    <section id="top" className="h-screen w-full">
-      <div className="relative h-full w-full overflow-hidden rounded-2xl md:rounded-[2rem] bg-ink">
-
-        {/* Background image (always works as fallback) */}
-        <img
-          src="https://images.unsplash.com/photo-1545048702-79362596cdc9?auto=format&fit=crop&w=2400&q=80"
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-
-        {/* Background video (enhances with motion) */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="https://images.unsplash.com/photo-1545048702-79362596cdc9?auto=format&fit=crop&w=2400&q=80"
-          className="absolute inset-0 h-full w-full object-cover"
-          src="https://videos.pexels.com/video-files/3577093/3577093-uhd_2560_1440_30fps.mp4"
-        />
-
-        {/* Noise overlay (film grain) */}
-        <div className="pointer-events-none absolute inset-0 bg-[url('/noise.svg')] opacity-[0.18] mix-blend-overlay" />
-
-        {/* Color tint — keep brand sage */}
-        <div className="pointer-events-none absolute inset-0 bg-sage-900/40 mix-blend-multiply" />
-
-        {/* Gradient overlay */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/15 to-black/85" />
-
-        {/* Floating pill nav — top center inside the card */}
-        <nav className="absolute left-1/2 top-0 z-20 -translate-x-1/2">
-          <div className="flex items-center gap-3 rounded-b-2xl border-x border-b border-white/10 bg-black/75 px-4 py-2 backdrop-blur-md sm:gap-6 md:gap-10 md:rounded-b-3xl md:px-8 md:py-2.5 lg:gap-12">
-            {items.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="text-[10px] transition-colors sm:text-xs md:text-sm font-hk"
-                style={{ color: "rgba(225, 224, 204, 0.82)", letterSpacing: "0.02em" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#E1E0CC")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(225, 224, 204, 0.82)")}
-              >
-                {item.label}
+    <section id="top" className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-28 grid-noise">
+      <div className="absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-sage-200/40 blur-3xl" />
+      <div className="absolute bottom-[-30%] left-[-10%] h-[420px] w-[420px] rounded-full bg-gold-400/20 blur-3xl" />
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
+        <div className="flex flex-wrap items-center gap-3 text-xs text-ink/60">
+          {t.trust.map((tag, i) => (
+            <span key={i} className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/60 px-3 py-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-sage-500" />
+              {tag}
+            </span>
+          ))}
+        </div>
+        <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-7">
+            <p className={"text-sm tracking-wide text-ink/60 " + (lang === "zh" ? "font-hk" : "")}>
+              {t.hero.eyebrow}
+            </p>
+            <h1 className={"mt-5 text-balance text-5xl leading-[1.05] tracking-tightest text-ink sm:text-6xl lg:text-7xl " + (lang === "zh" ? "font-hk" : "font-display")}>
+              {t.hero.title}
+            </h1>
+            <p className={"mt-6 max-w-xl text-pretty text-lg leading-relaxed text-ink/70 " + (lang === "zh" ? "font-hk" : "")}>
+              {t.hero.subtitle}
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a href="#contact" className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 text-sm font-medium text-bone transition hover:bg-ink/85">
+                {t.hero.ctaPrimary}
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
               </a>
-            ))}
-          </div>
-        </nav>
-
-        {/* Hero content — bottom row */}
-        <div className="absolute bottom-0 left-0 right-0 px-4 pb-5 sm:px-6 md:px-10 md:pb-6">
-          <div className="grid grid-cols-12 items-end gap-4">
-
-            <div className="col-span-12 lg:col-span-8">
-              <h1
-                className="font-display font-medium leading-[0.82] tracking-[-0.06em] text-[clamp(72px,21vw,360px)]"
-                style={{ color: "#E1E0CC" }}
-              >
-                <WordsPullUp text={headline} showAsterisk />
-              </h1>
-              <h2
-                className="font-display font-light italic leading-[0.88] tracking-[-0.04em] text-[clamp(26px,7.5vw,128px)] -mt-1"
-                style={{ color: "#C7C3A8" }}
-              >
-                <WordsPullUpMultiStyle
-                  segments={[{ text: tagline, className: "italic font-light" }]}
-                />
-              </h2>
+              <a href="#approach" className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white/70 px-6 py-3.5 text-sm font-medium text-ink transition hover:bg-white">
+                {t.hero.ctaSecondary}
+              </a>
             </div>
-
-            <div className="col-span-12 flex flex-col gap-4 pb-2 sm:pb-4 lg:col-span-4 lg:pb-8">
-
-              <motion.p
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="font-hk text-xs sm:text-sm md:text-[15px]"
-                style={{ color: "rgba(225, 224, 204, 0.8)", lineHeight: 1.4 }}
-              >
-                {t.hero.subtitle}
-              </motion.p>
-
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-wrap items-center gap-3"
-              >
-                <a
-                  href="#contact"
-                  className="group inline-flex items-center gap-2 self-start rounded-full bg-bone py-1.5 pl-5 pr-1 text-sm font-medium text-ink transition-all hover:gap-3 sm:text-base font-hk"
-                >
-                  {t.hero.ctaPrimary}
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
-                    <ArrowRight className="h-4 w-4" style={{ color: "#E1E0CC" }} />
-                  </span>
-                </a>
-                <a
-                  href="#approach"
-                  className="font-hk inline-flex items-center gap-2 self-start rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-medium text-bone backdrop-blur transition hover:bg-white/10"
-                >
-                  {t.hero.ctaSecondary}
-                </a>
-              </motion.div>
-
+            <div className="mt-10">
+              <p className={"text-xs uppercase tracking-widest text-ink/40 mb-3 " + (lang === "zh" ? "font-hk" : "")}>
+                {lang === "zh" ? "快速了解" : "Quick explore"}
+              </p>
+              <ExpandableTabs tabs={quickTabs} activeColor="text-sage-700" />
+            </div>
+          </div>
+          <div className="lg:col-span-5">
+            <div className="relative">
+              <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-gold-400/30 blur-2xl" />
+              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-sage-100 shadow-lift">
+                <svg viewBox="0 0 400 500" className="h-full w-full" preserveAspectRatio="xMidYMid slice">
+                  <defs>
+                    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#C5D9C0" /><stop offset="100%" stopColor="#5C8457" /></linearGradient>
+                    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#F5F1EA" /><stop offset="100%" stopColor="#E2ECDF" /></linearGradient>
+                    <radialGradient id="leaf" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stopColor="#9DBC95" /><stop offset="100%" stopColor="#476842" /></radialGradient>
+                  </defs>
+                  <rect width="400" height="500" fill="url(#g2)" />
+                  <g opacity="0.85">
+                    <path d="M0 380 Q100 320 200 340 T400 320 L400 500 L0 500 Z" fill="url(#g1)" />
+                    <path d="M0 420 Q120 380 240 400 T400 380 L400 500 L0 500 Z" fill="#3A5235" opacity="0.55" />
+                  </g>
+                  <g transform="translate(80 90)">
+                    <ellipse cx="120" cy="160" rx="120" ry="170" fill="url(#g1)" opacity="0.5" />
+                    <path d="M120 30 C 70 60, 40 110, 40 170 C 40 240, 80 290, 120 300 C 160 290, 200 240, 200 170 C 200 110, 170 60, 120 30 Z" fill="#3A5235" opacity="0.95" />
+                    <path d="M120 50 C 90 90, 80 140, 100 200 C 110 230, 120 250, 120 250 C 120 250, 130 230, 140 200 C 160 140, 150 90, 120 50 Z" fill="#5C8457" opacity="0.7" />
+                    <line x1="120" y1="40" x2="120" y2="290" stroke="#283523" strokeWidth="1.5" opacity="0.5" />
+                  </g>
+                  <g transform="translate(250 60) rotate(20)" opacity="0.95">
+                    <path d="M0 0 C 30 -10, 60 0, 80 30 C 60 50, 30 60, 0 50 Z" fill="url(#leaf)" />
+                    <line x1="0" y1="25" x2="70" y2="25" stroke="#283523" strokeWidth="1" opacity="0.5" />
+                  </g>
+                  <g transform="translate(40 250) rotate(-15)" opacity="0.9">
+                    <path d="M0 0 C 30 -10, 60 0, 80 30 C 60 50, 30 60, 0 50 Z" fill="url(#leaf)" />
+                  </g>
+                  <g transform="translate(280 320)">
+                    <text x="0" y="0" fontFamily="serif" fontSize="56" fill="#F5F1EA" opacity="0.18" fontWeight="300">仁</text>
+                    <text x="36" y="0" fontFamily="serif" fontSize="56" fill="#F5F1EA" opacity="0.18" fontWeight="300">幸</text>
+                  </g>
+                </svg>
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent" />
+                <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4">
+                  <div className="rounded-2xl bg-bone/95 px-4 py-3 shadow-soft backdrop-blur">
+                    <p className={"text-xs uppercase tracking-widest text-ink/50 " + (lang === "zh" ? "font-hk" : "")}>
+                      {lang === "zh" ? "兩間診所" : "Two clinics"}
+                    </p>
+                    <p className="mt-1 text-sm font-medium text-ink">Wan Chai · Tsuen Wan</p>
+                  </div>
+                  <div className="rounded-full bg-bone/95 p-3 shadow-soft backdrop-blur">
+                    <Quote className="h-4 w-4 text-sage-700" />
+                  </div>
+                </div>
+              </div>
+              <div className="absolute -bottom-6 -right-4 hidden sm:block">
+                <div className="rounded-2xl bg-ink px-5 py-4 text-bone shadow-lift">
+                  <p className={"text-xs uppercase tracking-widest text-bone/60 " + (lang === "zh" ? "font-hk" : "")}>
+                    {lang === "zh" ? "首次診症" : "First visit"}
+                  </p>
+                  <p className="mt-1 font-display text-2xl">{lang === "zh" ? "60 分鐘" : "60 min"}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Scroll cue */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
-          className="absolute bottom-5 right-5 hidden items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-bone/50 md:flex font-hk"
-        >
-          <span className="h-px w-8 bg-bone/30" />
-          {lang === "zh" ? "向下" : "Scroll"}
-        </motion.div>
       </div>
     </section>
   );
