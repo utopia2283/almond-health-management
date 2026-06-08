@@ -1,4 +1,3 @@
-import Navigation from "@/components/site/navigation";
 import Hero from "@/components/site/hero";
 import Services from "@/components/site/services";
 import Approach from "@/components/site/approach";
@@ -11,7 +10,7 @@ import Footer from "@/components/site/footer";
 export default function Page() {
   return (
     <main className="relative">
-      <Navigation />
+      {/* Navigation is now embedded inside the Prisma-style Hero */}
       <Hero />
       <Services />
       <Approach />
